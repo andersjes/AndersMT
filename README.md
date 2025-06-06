@@ -1,6 +1,23 @@
 # AndersMT
+This project is heavily inspired by the repository [luisnakayama/BRSET](https://github.com/luisnakayama/BRSET).  
+Much of the evaluation pipeline and structure in this codebase builds on their work.  
+We gratefully acknowledge their contribution to the open-source community.
 
-This project builds upon and adapts code and concepts from the BRSET repository by luisnakayama. In particular, the implementations training and testing models. Many thanks to the authors for making their code openly available.
+---
+
+To reproduce results or use pretrained models, weights can be obtained from the following sources:
+
+- **ReTFusion (ReTFoUND) Pretrained Weights**  
+  - Source: [ReTFoUND GitHub Repository](https://github.com/richarddwang/retfound)  
+  - Pretrained ViT models for fundus images:  
+    [https://huggingface.co/RetFound](https://huggingface.co/RetFound)
+
+- **VisionFM Pretrained Weights**  
+  - Source: [BRSET GitHub Repository](https://github.com/luisnakayama/BRSET)  
+  - Pretrained checkpoints available in their releases or model zoo.
+
+---
+
 
 "internal_train_test.py" contains code for training and test models for BRSET (objective 1 to 6).
 
