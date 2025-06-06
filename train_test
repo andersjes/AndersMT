@@ -3,9 +3,6 @@
 
 # %%
 import os
-# os.environ['CUDA_VISIBLE_DEVICES'] = "0, 6"
-
-#from src.get_dataset import get_dataset, split_data, plot_labels_distribution
 from src.data_loader import BRSETDataset, process_labels
 from src.RetFound import get_retfound
 from src.FocalLoss import FocalLoss
@@ -28,7 +25,7 @@ from src.test import test
 
 # %%
 # Constants:
-#DATASET = '/home/andersjes/andersmt/brset/labels_brset.csv'
+#DATASET = 'path_to_BRSET_labels.csv'
 
 #LABELS_PATH = os.path.join(DATASET, 'data/labels_brset.csv')
 #LABELS_PATH_TRAIN = os.path.join(DATASET, 'data/train_brset_nooverlap.csv') 
@@ -53,26 +50,28 @@ NORM_STD = [0.229, 0.224, 0.225]
 NORM_MEAN = None # [0.485, 0.456, 0.406]
 NORM_STD = None # [0.229, 0.224, 0.225]
 
-BACKBONE = 'convnextv2_large'
+#choose model architecture
+# BACKBONE = 'convnextv2_large'
 # BACKBONE = 'resnet200d'
 # BACKBONE = 'retfound'
 # BACKBONE = 'dinov2_large'
 # BACKBONE = 'visionfm'
 
 if BACKBONE == 'retfound':
-    weights = '/home/andersjes/andersmt/Weights/RETFound_cfp_weights.pth'
+    weights = 'path_to_retfound_weights.pth'
 
 elif BACKBONE == 'visionfm':
     weights = {
         'arch' : 'vit_base',
         'image_size' : 224,
         'patch_size' : 16,
-        'weights' : '/home/andersjes/andersmt/Weights/VFM_Fundus_weights.pth'
+        'weights' : 'path_to_visionfm_weights.pth'
     }   
 else:
     weights = None
+
 MODE = 'fine_tune'
-# backbone_mode = 'fine_tune' # 'fine_tune' or 'eval'
+# backbone_mode = 'fine_tune' # 'fine_tune' or 'eval', eval is frozen backbone 
 backbone_mode = 'fine_tune'
 
 HIDDEN = [128]
@@ -96,7 +95,6 @@ print("Using", torch.cuda.device_count(), "GPUs!")
 # #### Read csv file:
 
 # %%
-# df = get_dataset(LABELS_PATH, download=DOWNLOAD, info=False)
 
 def convert_labels(csv_file):
     df = pd.read_csv(csv_file)
@@ -109,9 +107,9 @@ def convert_labels(csv_file):
     return df
 
 
-train_df = convert_labels('train_100_brset_nooverlap_v1.csv')
-test_df = convert_labels('test_100_brset_nooverlap_v1.csv')
-val_df = convert_labels('val_100_brset_nooverlap_v1.csv')
+train_df = convert_labels('path_to_train_labels.csv')
+test_df = convert_labels('path_to_test_labels.csv')
+val_df = convert_labels('path_to_validation_labels.csv')
 train_df.head()
 
 # %%
