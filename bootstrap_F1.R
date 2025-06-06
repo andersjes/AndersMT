@@ -5,12 +5,9 @@ library(dplyr)
 library(ggplot2)
 library(hrbrthemes)
 
-# Set your working directory
-setwd("C:/Users/ander/OneDrive - Aarhus universitet/Skrivebord/calibration")
-
 # Load your data
-df_overlap <- read.csv("y_resnet200d_fine_tune_3class_reproduced.csv")
-df_no_overlap <- read.csv("resnet_100.csv")
+df_overlap <- read.csv("path_to_reproduced_results.csv")
+df_no_overlap <- read.csv("path_to_patient_stratified_results.csv")
 
 # print columns names
 
