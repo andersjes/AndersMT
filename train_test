@@ -122,42 +122,6 @@ train_df.head()
 #val_df[LABEL] = val_df[LABEL].apply(lambda x: 'Normal' if x == 0 else ('Non-proliferative' if x in [1, 2, 3] else 'Proliferative'))
 
 """
-# %%
-
-def stratify_group(df, X_col, y_col, group_col, n_splits=1, shuffle = False, random_state=42):
-    if shuffle == False:
-        random_state = None
-    skf = StratifiedGroupKFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
-    X = df[X_col].values
-    y = df[y_col].values
-    groups = df[group_col].values
-    for train_index, test_index in skf.split(X, y, groups):
-        train_data = df.iloc[train_index]
-        test_data = df.iloc[test_index]
-        break
-
-    print(f"Train data shape: {train_data.shape}")
-    print(f"Test data shape: {test_data.shape}")
-
-    plt.figure(figsize=(10, 5))
-    plt.subplot(1, 2, 1)
-    plot_labels_distribution(train_data, y_col, title='Train Label Distribution')
-    plt.subplot(1, 2, 2)
-    plot_labels_distribution(test_data, y_col, title='Test Label Distribution')
-    plt.show()
-    return train_data, test_data
-        
-"""
-# %%
-# # Split dataset into train, test and validation:
-# if GROUP_STRATIFY == True:
-#     df_train, df_test = stratify_group(df, 'image_id', LABEL, 'patient_id', n_splits=3, shuffle=True)
-#     print('Getting validation set...')
-#     df_test, df_val = stratify_group(df_test, 'image_id', LABEL, 'patient_id', n_splits=5, shuffle=False)
-# else:
-#     df_train, df_test = split_data(df, LABEL, TEST_SIZE, undersample=False)
-#     print('Getting validation set...')
-#     df_test, df_val = split_data(df_test, LABEL, 0.20)
 
 # %% [markdown]
 # ### Dataloaders
@@ -247,7 +211,7 @@ for batch in train_dataloader:
 
 # %%
 # Create a DataLoader to generate embeddings
-#model = get_retfound(weights='/home/opc/FoundationalRetina/Weights/RETFound_cfp_weights.pth', num_classes=3)
+#model = get_retfound(weights='path_to_retfound_weights.pth', num_classes=3)
 # Create a DataLoader to generate embeddings
 backbone_model = FoundationalCVModel(backbone=BACKBONE, mode=MODE, weights=weights)
 model = FoundationalCVModelWithClassifier(backbone_model, hidden=HIDDEN, num_classes=num_classes, mode=MODE, backbone_mode=backbone_mode)
@@ -297,14 +261,14 @@ model = train(
     num_epochs=num_epochs, 
     save=True, 
     device=device, 
-    backbone=f'{BACKBONE}_100'
+    backbone=f'{BACKBONE}'
 )
 
 # %% [markdown]
 # ### Test
 
 # %%
-path = f'/home/andersjes/andersmt/Models/fine_tuned_{BACKBONE}_100_best.pth'
+path = f'path_to_model.pth'
 net = torch.load(path, map_location=torch.device(device))
 if device.type == 'cpu':
     net = {k.replace('module.', ''): v for k, v in net.items()}
@@ -313,59 +277,4 @@ model.load_state_dict(net, strict=False)
 
 # %%
 test(model, test_dataloader, saliency=True, device=device)
-
-
-
-
-# %% [markdown]
-# ### Image quality assessment
-
-# %%
-# Good quality images
-"""
-adequate_df = test_df[test_df['quality'] == 'Adequate']
-
-# Bad quality images
-inadequate_df = test_df[test_df['quality'] == 'Inadequate']
-
-adequate_dataset = BRSETDataset(
-    adequate_df, 
-    IMAGE_COL, 
-    IMAGES, 
-    LABEL, 
-    mlb, 
-    train_columns, 
-    transform=test_transform
-)
-
-inadequate_dataset = BRSETDataset(
-    inadequate_df, 
-    IMAGE_COL, 
-    IMAGES, 
-    LABEL, 
-    mlb, 
-    train_columns, 
-    transform=test_transform
-)
-
-adequate_dataloader = DataLoader(adequate_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_WORKERS, pin_memory=True)
-inadequate_dataloader = DataLoader(inadequate_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_WORKERS, pin_memory=True)
-
-# %% [markdown]
-# #### Adequate image quality
-
-# %%
-test(model, adequate_dataloader, saliency=True, device=device, save=True)
-
-# %% [markdown]
-# #### Inadequate image quality
-
-# %%
-test(model, inadequate_dataloader, saliency=True, device=device)
-
-# %%
-
-
-
-
 """
