@@ -191,22 +191,6 @@ def test_model(y_test, y_pred, y_prob=None):
         plt.title("Extension of Receiver Operating Characteristic\nto One-vs-Rest multiclass")
         plt.legend(loc='upper left', bbox_to_anchor=(1, 1), bbox_transform=plt.gcf().transFigure)
         plt.show()
-        
-
-    # Calibration curve
-    #if y_prob is not None:
-    #    prob_true, prob_pred = calibration_curve(y_test, y_prob, n_bins=10)
-
-    #    plt.figure(figsize=(7, 7))
-    #    plt.plot(prob_pred, prob_true, marker='o', label="Model Calibration")
-    #    plt.plot([0, 1], [0, 1], linestyle="--", color='gray', label="Perfect Calibration")
-    #    plt.xlabel("Predicted Probability")
-    #    plt.ylabel("Actual Probability")
-    #    plt.title("Calibration Plot")
-    #    plt.legend()
-    #    plt.grid()
-    #    plt.show()
-        
     
     # Create a classification report of the test predictions
     cr = classification_report(y_test, y_pred)
