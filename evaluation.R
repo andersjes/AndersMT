@@ -5,10 +5,8 @@ library(Hmisc)
 library(caret)
 library(ggplot2)
 
-setwd("C:/Users/ander/OneDrive - Aarhus universitet/Skrivebord/calibration")
-
 # Load dataset
-df <- read.csv("visionfm_100.csv")
+df <- read.csv("path_to_predicted_probabilities.cvs")
 
 # Swap y_test_0 with y_test_1 and y_prob_0 with y_prob_1
 temp_test <- df$y_test_0
