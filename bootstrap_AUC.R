@@ -5,12 +5,9 @@ library(dplyr)
 library(ggplot2)
 library(hrbrthemes)
 
-# Set your working directory
-setwd("C:/Users/ander/OneDrive - Aarhus universitet/Skrivebord/calibration")
-
 # Load your data
-df_overlap <- read.csv("y_convnextv2_large_3class_reproduced.csv")
-df_no_overlap <- read.csv("convnext_100.csv")
+df_overlap <- read.csv("path_to_reproduced_results.csv")
+df_no_overlap <- read.csv("path_to_patient_stratified__results.csv")
 
 # print columns names
 
