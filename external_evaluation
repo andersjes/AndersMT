@@ -20,14 +20,17 @@ BATCH_SIZE = 16
 NUM_WORKERS = 4
 NUM_CLASSES = 3
 HIDDEN = [128]
-BACKBONE = 'convnextv2_large'
-WEIGHTS_PATH = '/home/andersjes/andersmt/Models/fine_tuned_convnextv2_large_100_best.pth'
-# WEIGHTS_PATH = '/home/livieymli/brset_analysis/BRSET/models/FT_resnet200d_fine_tune_3class_DR_ICDR_best.pth'
-EXTERNAL_CSV = '/home/andersjes/andersmt/physionet.org/files/mbrset/1.0/labels_mbrset.csv'
-# EXTERNAL_CSV = '/home/livieymli/brset_analysis/mBRSET/data/labels_mbrset_anders.csv'
-EXTERNAL_IMAGES = '/home/andersjes/andersmt/physionet.org/files/mbrset/1.0/images'
-# EXTERNAL_IMAGES = '/home/livieymli/brset_analysis/mBRSET/data/images'
-TRAIN_CSV = 'train_100_brset_nooverlap_v1.csv'  # for fitting the label encoder
+#choose model architecture
+# BACKBONE = 'convnextv2_large'
+# BACKBONE = 'resnet200d'
+# BACKBONE = 'retfound'
+# BACKBONE = 'dinov2_large'
+# BACKBONE = 'visionfm'
+
+WEIGHTS_PATH = 'path_to_weights.pth'
+EXTERNAL_CSV = 'path_to_external_labels.csv'
+EXTERNAL_IMAGES = '/path_to_external_images'
+TRAIN_CSV = 'path_to_internal_training_labels.csv'  # for fitting the label encoder
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
