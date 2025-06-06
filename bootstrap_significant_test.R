@@ -3,12 +3,10 @@ library(caret)
 library(pROC)
 library(dplyr)
 
-# Set your working directory
-setwd("C:/Users/ander/OneDrive - Aarhus universitet/Skrivebord/calibration")
 
 # Load your data
-df_overlap <- read.csv("convnext_100_reproduced.csv")
-df_no_overlap <- read.csv("convnext_100.csv")
+df_overlap <- read.csv("path_to_reproduced_predicted_probabilities.csv")
+df_no_overlap <- read.csv("path_to_patient_stratified_predicted_probabilities.csv")
 
 # Swap class 0 and class 1
 swap_columns <- function(df) {
