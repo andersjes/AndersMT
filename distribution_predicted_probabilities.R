@@ -3,11 +3,9 @@ library(ggplot2)
 library(tidyr)
 library(dplyr)
 
-# Set working directory (adjust path if needed)
-setwd("C:/Users/ander/OneDrive - Aarhus universitet/Skrivebord/calibration")
 
 # Load dataset
-df <- read.csv("resnet_80_mBRSET.csv")
+df <- read.csv("path_to_predicted_probabilities.csv")
 
 # Swap y_test_0 with y_test_1 and y_prob_0 with y_prob_1
 temp_test <- df$y_test_0
