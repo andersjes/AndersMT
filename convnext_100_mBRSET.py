@@ -1,0 +1,87 @@
+
+#%%
+import os
+import pandas as pd
+import torch
+import torch.nn as nn
+from torchvision import transforms
+from torch.utils.data import DataLoader
+
+from src.data_loader import BRSETDataset, process_labels
+from src.model import FoundationalCVModel, FoundationalCVModelWithClassifier
+from src.test import test
+
+#%%
+# configuration
+LABEL = 'DR_ICDR'
+IMAGE_COL = 'file'
+SHAPE = (224, 224)
+BATCH_SIZE = 16
+NUM_WORKERS = 4
+NUM_CLASSES = 3
+HIDDEN = [128]
+BACKBONE = 'convnextv2_large'
+WEIGHTS_PATH = '/home/andersjes/andersmt/Models/fine_tuned_convnextv2_large_100_best.pth'
+# WEIGHTS_PATH = '/home/livieymli/brset_analysis/BRSET/models/FT_resnet200d_fine_tune_3class_DR_ICDR_best.pth'
+EXTERNAL_CSV = '/home/andersjes/andersmt/physionet.org/files/mbrset/1.0/labels_mbrset.csv'
+# EXTERNAL_CSV = '/home/livieymli/brset_analysis/mBRSET/data/labels_mbrset_anders.csv'
+EXTERNAL_IMAGES = '/home/andersjes/andersmt/physionet.org/files/mbrset/1.0/images'
+# EXTERNAL_IMAGES = '/home/livieymli/brset_analysis/mBRSET/data/images'
+TRAIN_CSV = 'train_100_brset_nooverlap_v1.csv'  # for fitting the label encoder
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+#%%
+# labels
+def convert_labels(csv_file):
+    df = pd.read_csv(csv_file)
+    if 'final_icdr' in df.columns:
+        df.rename(columns={'final_icdr': 'DR_ICDR'}, inplace=True)
+    df.dropna(subset=[LABEL], inplace=True)
+    df[LABEL] = df[LABEL].apply(lambda x: 
+                                'Normal' if x == 0 else 
+                                ('Non-proliferative' if x in [1, 2, 3] else 'Proliferative'))
+    return df
+
+train_df = convert_labels(TRAIN_CSV)
+train_labels, mlb, train_columns = process_labels(train_df, col=LABEL)
+
+external_df = convert_labels(EXTERNAL_CSV)
+external_df['file'] = external_df['file'].str.replace('.jpg', '', regex=False)
+
+#%%
+# transform and dataloader
+test_transform = transforms.Compose([
+    transforms.Resize(SHAPE),
+    transforms.ToTensor(),
+])
+
+test_dataset = BRSETDataset(
+    external_df,
+    IMAGE_COL,
+    EXTERNAL_IMAGES,
+    LABEL,
+    mlb,
+    train_columns,
+    transform=test_transform
+)
+
+test_dataloader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_WORKERS, pin_memory=True)
+
+#%%
+# load model
+backbone_model = FoundationalCVModel(backbone=BACKBONE, mode='fine_tune', weights=None)
+model = FoundationalCVModelWithClassifier(backbone_model, hidden=HIDDEN, num_classes=NUM_CLASSES, mode='fine_tune', backbone_mode='fine_tune')
+model.to(device)
+
+if torch.cuda.device_count() > 1:
+    model = nn.DataParallel(model)
+
+checkpoint = torch.load(WEIGHTS_PATH, map_location=device)
+if device.type == 'cpu':
+    checkpoint = {k.replace('module.', ''): v for k, v in checkpoint.items()}
+model.load_state_dict(checkpoint, strict=False)
+
+#%%
+# test model
+test(model, test_dataloader, saliency=True, device=device)
