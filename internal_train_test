@@ -31,7 +31,7 @@ from src.test import test
 #LABELS_PATH_TRAIN = os.path.join(DATASET, 'data/train_brset_nooverlap.csv') 
 #LABELS_PATH_VAL = os.path.join(DATASET, 'data/val_brset_nooverlap.csv')
 #LABELS_PATH_TEST = os.path.join(DATASET, 'data/test_brset_nooverlap.csv')
-IMAGES = "/home/andersjes/andersmt/brset/fundus_photos"
+IMAGES = "path_to_images"
 DOWNLOAD = False
 SHAPE = (224, 224)
 LABEL = 'DR_ICDR'
