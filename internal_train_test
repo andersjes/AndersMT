@@ -28,9 +28,9 @@ from src.test import test
 #DATASET = 'path_to_BRSET_labels.csv'
 
 #LABELS_PATH = os.path.join(DATASET, 'data/labels_brset.csv')
-#LABELS_PATH_TRAIN = os.path.join(DATASET, 'data/train_brset_nooverlap.csv') 
-#LABELS_PATH_VAL = os.path.join(DATASET, 'data/val_brset_nooverlap.csv')
-#LABELS_PATH_TEST = os.path.join(DATASET, 'data/test_brset_nooverlap.csv')
+#LABELS_PATH_TRAIN = os.path.join(DATASET, 'path_to_train_images') 
+#LABELS_PATH_VAL = os.path.join(DATASET, 'path_to_validation_images.csv')
+#LABELS_PATH_TEST = os.path.join(DATASET, 'path_to_test_images.csv')
 IMAGES = "path_to_images"
 DOWNLOAD = False
 SHAPE = (224, 224)
