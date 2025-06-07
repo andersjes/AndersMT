@@ -12,7 +12,6 @@ To reproduce results or use pretrained models, weights can be obtained from the 
 
 - **VisionFM Pretrained Weights**  
   - Source: [[VisionFM GitHub Repository](https://github.com/ABILab-CUHK/VisionFM) ]  
-  - Pretrained checkpoints available in their releases or model zoo.
 
 ---
 
