@@ -7,13 +7,11 @@ We gratefully acknowledge their contribution to the open-source community.
 
 To reproduce results or use pretrained models, weights can be obtained from the following sources:
 
-- **ReTFusion (ReTFoUND) Pretrained Weights**  
-  - Source: [ReTFoUND GitHub Repository](https://github.com/richarddwang/retfound)  
-  - Pretrained ViT models for fundus images:  
-    [https://huggingface.co/RetFound](https://huggingface.co/RetFound)
+- **RetFound Pretrained Weights**  
+  - Source: [[ReTFound GitHub Repository](https://github.com/rmaphoh/RETFound_MAE) ] 
 
 - **VisionFM Pretrained Weights**  
-  - Source: [BRSET GitHub Repository](https://github.com/luisnakayama/BRSET)  
+  - Source: [[VisionFM GitHub Repository](https://github.com/ABILab-CUHK/VisionFM) ]  
   - Pretrained checkpoints available in their releases or model zoo.
 
 ---
